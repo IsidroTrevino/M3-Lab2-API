@@ -18,6 +18,6 @@ model Books {
   bookName      String   @unique
   author   String
   ISBN     String   @unique
-  releaseDate DateTime
+  realeaseDate DateTime
   available Boolean  @default(true)
 }
