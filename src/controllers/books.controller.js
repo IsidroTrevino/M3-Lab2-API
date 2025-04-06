@@ -11,11 +11,11 @@ export const AllBooks = async (req, res) => {
 }
 
 export const createBook = async (req, res) => {
-    const { title, author, year } = req.body;
+    const { bookName, author, ISBN, releaseDate, available } = req.body;
 
     try {
         const newBook = await prisma.books.create({
-            data: { title, author, year }
+            data: { bookName, author, ISBN, releaseDate, available }
         });
         res.status(201).json(newBook);
     } catch (error) {
@@ -26,12 +26,12 @@ export const createBook = async (req, res) => {
 
 export const updateBook = async (req, res) => {
     const { id } = req.params;
-    const { title, author, year } = req.body;
+    const { bookName, author, ISBN, releaseDate, available } = req.body;
 
     try {
         const book = await prisma.books.update({
             where: { id: parseInt(id) },
-            data: { title, author, year }
+            data: { bookName, author, ISBN, releaseDate, available }
         });
         res.json(book);
     } catch (error) {
