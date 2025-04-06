@@ -14,13 +14,28 @@ export const createBook = async (req, res) => {
     const { bookName, author, ISBN, realeaseDate, available } = req.body;
 
     try {
+        const parsedDate = new Date(realeaseDate);
+        
+        if (isNaN(parsedDate.getTime())) {
+            return res.status(400).json({ error: "Invalid date format. Use YYYY-MM-DD" });
+        }
+        
         const newBook = await prisma.books.create({
-            data: { bookName, author, ISBN, realeaseDate, available }
+            data: {
+                bookName,
+                author,
+                ISBN,
+                realeaseDate: parsedDate,
+                available: available !== undefined ? Boolean(available) : true
+            }
         });
         res.status(201).json(newBook);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Error creating book" });
+        res.status(500).json({ 
+            error: "Error creating book", 
+            details: error.message 
+        });
     }
 }
 
