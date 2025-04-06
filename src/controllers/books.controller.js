@@ -31,7 +31,7 @@ export const updateBook = async (req, res) => {
     try {
         const book = await prisma.books.update({
             where: { id: parseInt(id) },
-            data: { bookName, author, ISBN, releaseDate, available }
+            data: { bookName, author, ISBN, releaseDate: new Date(releaseDate), available: Boolean(available) }
         });
         res.json(book);
     } catch (error) {
